@@ -4,7 +4,8 @@
   "description": "qs-api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js"
   },
   "author": "jtrtj + TristanB17",
   "license": "ISC",
