@@ -79,11 +79,11 @@ describe("API Routes", () => {
         .send({
           food: {
             name: "Tristan's Power Level",
-            calories: "9001"
+            calories: 9001
           }
         })
         .end((err, response) => {
-          response.should.status(201);
+          response.should.have.status(201);
           response.body.should.be.a("object");
           response.body.should.have.property("id");
           response.body.should.have.property("name");
@@ -109,5 +109,25 @@ describe("API Routes", () => {
           done();
         });
     });
+  });
+
+  describe("PUT /api/foods/:food_id", done => {
+    chai
+      .request(server)
+      .put("/api/foods/2")
+      .send({
+        food: {
+          name: "Redbull",
+          calories: 567
+        }
+      })
+      .end((err, response) => {
+        response.should.have.status(200);
+        response.body.should.be.a("object");
+        response.body.should.have.property("id");
+        response.body.should.have.property("name");
+        response.body.should.have.property("calories");
+        done();
+      });
   });
 });
