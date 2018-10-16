@@ -45,4 +45,39 @@ router.get("/:meal_id/foods", (req, res) => {
     });
 });
 
+router.post("/:meal_id/foods/:food_id", (req, res) => {
+  const food = req.body;
+  food["meal_id"] = req.params.meal_id;
+  food["food_id"] = req.params.food_id;
+  for (let requiredParameter of ["meal_id"]) {
+    if (!food[requiredParameter]) {
+      return res
+        .status(422)
+        .send({
+          error: `Expected format: { note: <String> }. You're missing a "${requiredParameter}" property.`
+        });
+    }
+  }
+  database("meal_foods")
+    .insert(food)
+    .returning("*")
+    .then(food => {
+      res.status(201).json(food);
+    })
+    .catch(error => {
+      res.status(500).json({ error });
+    });
+});
+
+router.delete("/:meal_id/foods/:food_id", (req, res) => {
+  mealId = req.params.meal_id;
+  foodId = req.params.food_id;
+  database.raw();
+  // database('meal_foods')
+  // .where(`meal_id: ${mealId}`)
+  // .where(`food_id: ${foodId}`)
+  // .del()
+  // .then(res.status(204).send('You are the best'));
+});
+
 module.exports = router;
