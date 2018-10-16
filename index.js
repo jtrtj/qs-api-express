@@ -12,6 +12,12 @@ app.use(
   })
 );
 
+app.get("/", (request, response) => {
+  response.send("Welcome to the Quantified Self API");
+});
+
 app.use("/api", apiRoute);
 
 app.listen("3000");
+
+module.exports = app;

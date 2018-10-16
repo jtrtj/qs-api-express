@@ -36,6 +36,13 @@ router.get("/:food_id", (req, res) => {
 
 router.post("/", (req, res) => {
   let newFood = req.body.food;
+  for (let requiredParameter of ["name", "calories"]) {
+    if (!newFood[requiredParameter]) {
+      return res.status(400).json({
+        error: `Expected format: { name: <string>, calories: <integer> }. You are missing a "${requiredParameter} property."`
+      });
+    }
+  }
   database
     .insert(newFood)
     .returning("*")
@@ -48,7 +55,7 @@ router.post("/", (req, res) => {
       });
     })
     .catch(error => {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     });
 });
 
