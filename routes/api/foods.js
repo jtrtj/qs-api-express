@@ -5,7 +5,7 @@ const environment = process.env.NODE_ENV || "development";
 const configuration = require("../../knexfile")[environment];
 const database = require("knex")(configuration);
 
-router.get("/", function(req, res) {
+router.get("/", (req, res) => {
   database
     .select()
     .from("foods")
@@ -17,20 +17,24 @@ router.get("/", function(req, res) {
     });
 });
 
-router.get("/:id", function(req, res) {
+router.get("/:food_id", (req, res) => {
   database
-    .whereIn("id", [req.params.id])
+    .whereIn("id", [req.params.food_id])
     .first()
     .from("foods")
     .then(food => {
-      res.status(200).json(food);
+      res.status(200).json({
+        id: food.id,
+        name: food.name,
+        calories: food.calories
+      });
     })
     .catch(error => {
       res.status(404).json({ error });
     });
 });
 
-router.post("/", function(req, res) {
+router.post("/", (req, res) => {
   let newFood = req.body.food;
   database
     .insert(newFood)
@@ -45,6 +49,37 @@ router.post("/", function(req, res) {
     })
     .catch(error => {
       res.status(400).json({ error });
+    });
+});
+
+router.put("/:food_id", (req, res) => {
+  database("foods")
+    .where({ id: req.params.food_id })
+    .update(req.body.food)
+    .returning("*")
+    .then(updatedFood => {
+      res
+        .status(200)
+        .json({
+          id: updatedFood[0].id,
+          name: updatedFood[0].name,
+          calories: updatedFood[0].calories
+        })
+        .catch(error => {
+          res.status(404).json({ error });
+        });
+    });
+});
+
+router.delete("/:food_id", (req, res) => {
+  database("foods")
+    .where({ id: req.params.food_id })
+    .del()
+    .then(() => {
+      res.status(204).json();
+    })
+    .catch(error => {
+      res.status(404).json({ error });
     });
 });
 
