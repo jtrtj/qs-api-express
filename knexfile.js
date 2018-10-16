@@ -1,19 +1,18 @@
 // Update with your config settings.
 
 module.exports = {
-
   development: {
-    client: 'pg',
-    connection: 'postgres://localhost/quantified_self_express',
+    client: "pg",
+    connection: "postgres://localhost/quantified_self_express",
     migrations: {
-      directory: './db/migrations'
+      directory: "./db/migrations"
     },
     seeds: {
-      directory: './db/seeds/dev'
+      directory: "./db/seeds/dev"
     },
     useNullAsDefault: true
-  },
-
+  }
+  // ,
   // staging: {
   //   client: 'postgresql',
   //   connection: {
@@ -45,5 +44,4 @@ module.exports = {
   //     tableName: 'knex_migrations'
   //   }
   // }
-
 };
