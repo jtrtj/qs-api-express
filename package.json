@@ -5,16 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "precommit": "pretty-quick --staged"
   },
   "author": "jtrtj + TristanB17",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "knex": "^0.15.2",
     "pg": "^7.5.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "husky": "^1.1.2",
+    "nodemon": "^1.18.4",
+    "prettier": "1.14.3",
+    "pretty-quick": "^1.8.0"
   }
 }

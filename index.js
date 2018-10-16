@@ -1,7 +1,16 @@
-const express = require('express')
-const app = express()
-const apiRoute = require('./routes/api')
+const express = require("express");
+const apiRoute = require("./routes/api");
+const bodyParser = require("body-parser");
 
-app.use('/api', apiRoute)
+const app = express();
+app.use(bodyParser.json());
+/// use nested objects:
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
-app.listen('3000')
+app.use("/api", apiRoute);
+
+app.listen("3000");
