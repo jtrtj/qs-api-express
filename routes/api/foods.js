@@ -60,21 +60,27 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:food_id", (req, res) => {
+  let foodToUpdateFood = req.body.food;
+  for (let requiredParameter of ["name", "calories"]) {
+    if (!foodToUpdateFood[requiredParameter]) {
+      return res.status(400).json({
+        error: `Expected format: { name: <string>, calories: <integer> }. You are missing a "${requiredParameter} property."`
+      });
+    }
+  }
   database("foods")
     .where({ id: req.params.food_id })
     .update(req.body.food)
     .returning("*")
     .then(updatedFood => {
-      res
-        .status(200)
-        .json({
-          id: updatedFood[0].id,
-          name: updatedFood[0].name,
-          calories: updatedFood[0].calories
-        })
-        .catch(error => {
-          res.status(404).json({ error });
-        });
+      res.status(200).json({
+        id: updatedFood[0].id,
+        name: updatedFood[0].name,
+        calories: updatedFood[0].calories
+      });
+    })
+    .catch(error => {
+      res.status(500).json({ error });
     });
 });
 

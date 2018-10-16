@@ -111,23 +111,43 @@ describe("API Routes", () => {
     });
   });
 
-  describe("PUT /api/foods/:food_id", done => {
-    chai
-      .request(server)
-      .put("/api/foods/2")
-      .send({
-        food: {
-          name: "Redbull",
-          calories: 567
-        }
-      })
-      .end((err, response) => {
-        response.should.have.status(200);
-        response.body.should.be.a("object");
-        response.body.should.have.property("id");
-        response.body.should.have.property("name");
-        response.body.should.have.property("calories");
-        done();
-      });
+  describe("PUT /api/foods/:food_id", () => {
+    it("should update the food specified in params", done => {
+      chai
+        .request(server)
+        .put("/api/foods/2")
+        .send({
+          food: {
+            name: "Redbull",
+            calories: 567
+          }
+        })
+        .end((err, response) => {
+          response.should.have.status(200);
+          response.body.should.be.a("object");
+          response.body.should.have.property("id");
+          response.body.should.have.property("name");
+          response.body.should.have.property("calories");
+          done();
+        });
+    });
+
+    it("should not update the food specified without required parameters", done => {
+      chai
+        .request(server)
+        .put("/api/foods/2")
+        .send({
+          food: {
+            calories: 567
+          }
+        })
+        .end((err, response) => {
+          response.should.have.status(400);
+          response.body.error.should.eq(
+            `Expected format: { name: <string>, calories: <integer> }. You are missing a "name property."`
+          );
+          done();
+        });
+    });
   });
 });
