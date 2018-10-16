@@ -70,4 +70,44 @@ describe("API Routes", () => {
         });
     });
   });
+
+  describe("POST /api/food", () => {
+    it("should create a new food", done => {
+      chai
+        .request(server)
+        .post("/api/foods")
+        .send({
+          food: {
+            name: "Tristan's Power Level",
+            calories: "9001"
+          }
+        })
+        .end((err, response) => {
+          response.should.status(201);
+          response.body.should.be.a("object");
+          response.body.should.have.property("id");
+          response.body.should.have.property("name");
+          response.body.should.have.property("calories");
+          done();
+        });
+    });
+
+    it("should not create a record with missing data", done => {
+      chai
+        .request(server)
+        .post("/api/foods")
+        .send({
+          food: {
+            name: "Tristan's Power Level"
+          }
+        })
+        .end((err, response) => {
+          response.should.have.status(400);
+          response.body.error.should.eq(
+            `Expected format: { name: <string>, calories: <integer> }. You are missing a "calories property."`
+          );
+          done();
+        });
+    });
+  });
 });
