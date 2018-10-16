@@ -51,11 +51,9 @@ router.post("/:meal_id/foods/:food_id", (req, res) => {
   food["food_id"] = req.params.food_id;
   for (let requiredParameter of ["meal_id"]) {
     if (!food[requiredParameter]) {
-      return res
-        .status(422)
-        .send({
-          error: `Expected format: { note: <String> }. You're missing a "${requiredParameter}" property.`
-        });
+      return res.status(422).send({
+        error: `Expected format: { note: <String> }. You're missing a "${requiredParameter}" property.`
+      });
     }
   }
   database("meal_foods")
@@ -72,12 +70,25 @@ router.post("/:meal_id/foods/:food_id", (req, res) => {
 router.delete("/:meal_id/foods/:food_id", (req, res) => {
   mealId = req.params.meal_id;
   foodId = req.params.food_id;
-  database.raw();
-  // database('meal_foods')
-  // .where(`meal_id: ${mealId}`)
-  // .where(`food_id: ${foodId}`)
-  // .del()
-  // .then(res.status(204).send('You are the best'));
+  database("meal_foods")
+    .where(`meal_id: ${mealId}`)
+    .andWhere(`food_id: ${foodId}`)
+    .first()
+    .del()
+    .then(() => {
+      res.status(204).json();
+    })
+    .catch(error => {
+      res.status(500).json({ error });
+    });
+  // database.raw(`
+  //   DELETE FROM meal_foods
+  //   WHERE meal_id = ${mealId}
+  //   AND food_id = ${foodId}
+  // `).del()
+  // .then(response => {
+  //   res.status(204).json( {message: 'You did it'} )
+  // })
 });
 
 module.exports = router;
