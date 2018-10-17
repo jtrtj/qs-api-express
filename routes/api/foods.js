@@ -85,14 +85,21 @@ router.put("/:food_id", (req, res) => {
 });
 
 router.delete("/:food_id", (req, res) => {
+  const foodID = parseInt(req.params.food_id);
   database("foods")
-    .where({ id: req.params.food_id })
+    .where("id", foodID)
     .del()
-    .then(() => {
-      res.status(204).json();
+    .then(result => {
+      if (result) {
+        res.status(204).json({
+          status: "success"
+        });
+      } else {
+        res.status(404).json();
+      }
     })
     .catch(error => {
-      res.status(404).json({ error });
+      res.status(500).json({ error });
     });
 });
 
