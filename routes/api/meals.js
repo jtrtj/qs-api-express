@@ -46,21 +46,49 @@ router.get("/:meal_id/foods", (req, res) => {
 });
 
 router.post("/:meal_id/foods/:food_id", (req, res) => {
-  const food = req.body;
-  food["meal_id"] = req.params.meal_id;
-  food["food_id"] = req.params.food_id;
-  for (let requiredParameter of ["meal_id"]) {
-    if (!food[requiredParameter]) {
+  let mealFood = {};
+  mealFood["meal_id"] = req.params.meal_id;
+  mealFood["food_id"] = req.params.food_id;
+  for (let requiredParameter of ["meal_id", "food_id"]) {
+    if (!mealFood[requiredParameter]) {
       return res.status(422).send({
-        error: `Expected format: { note: <String> }. You're missing a "${requiredParameter}" property.`
+        error: `Expected format: '/meals/:meal_id/foods/:food_id' . You're missing a "${requiredParameter}" property.`
       });
     }
   }
+  let foodName;
+  let mealName;
+  database("foods")
+    .where("id", req.params.food_id)
+    .then(value => {
+      if (!value.length) {
+        return res.status(404).json({ error });
+      }
+      foodName = value[0].name;
+    })
+    .catch(error => {
+      res.status(500).json({ error });
+    });
+
+  database("meals")
+    .where("id", mealFood["meal_id"])
+    .then(value => {
+      if (!value.length) {
+        return res.status(404).json({ error });
+      }
+      mealName = value[0].name;
+    })
+    .catch(error => {
+      res.status(500).json({ error });
+    });
+
   database("meal_foods")
-    .insert(food)
+    .insert(mealFood)
     .returning("*")
-    .then(food => {
-      res.status(201).json(food);
+    .then(() => {
+      res.status(201).json({
+        message: `Successfully added ${foodName} to ${mealName}`
+      });
     })
     .catch(error => {
       res.status(500).json({ error });
@@ -68,26 +96,30 @@ router.post("/:meal_id/foods/:food_id", (req, res) => {
 });
 
 router.delete("/:meal_id/foods/:food_id", (req, res) => {
-  mealId = req.params.meal_id;
-  foodId = req.params.food_id;
+  let mealId = req.params.meal_id;
+  let foodId = req.params.food_id;
+  let foodName;
+  let mealName;
+  database("foods")
+    .where("id", foodId)
+    .first()
+    .then(value => (foodName = value.name));
+  database("meals")
+    .where("id", mealId)
+    .first()
+    .then(value => (mealName = value.name));
   database("meal_foods")
     .where(`meal_id`, mealId)
     .where(`food_id`, foodId)
     .del()
-    .then(() => {
-      res.status(204).json();
+    .then(mealFood => {
+      res.status(200).json({
+        message: `Successfully removed ${foodName} from ${mealName}`
+      });
     })
     .catch(error => {
       res.status(500).json({ error });
     });
-  // database.raw(`
-  //   DELETE FROM meal_foods
-  //   WHERE meal_id = ${mealId}
-  //   AND food_id = ${foodId}
-  // `).del()
-  // .then(response => {
-  //   res.status(204).json( {message: 'You did it'} )
-  // })
 });
 
 module.exports = router;
