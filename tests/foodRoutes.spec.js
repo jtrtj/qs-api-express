@@ -111,23 +111,84 @@ describe("API Routes", () => {
     });
   });
 
-  describe("PUT /api/foods/:food_id", done => {
-    chai
-      .request(server)
-      .put("/api/foods/2")
-      .send({
-        food: {
-          name: "Redbull",
-          calories: 567
-        }
-      })
-      .end((err, response) => {
-        response.should.have.status(200);
-        response.body.should.be.a("object");
-        response.body.should.have.property("id");
-        response.body.should.have.property("name");
-        response.body.should.have.property("calories");
-        done();
-      });
+  describe("PUT /api/foods/:food_id", () => {
+    it("should update the food specified by the food_id parameter", done => {
+      chai
+        .request(server)
+        .put("/api/foods/2")
+        .send({
+          food: {
+            name: "Redbull",
+            calories: 567
+          }
+        })
+        .end((err, response) => {
+          response.should.have.status(200);
+          response.body.should.be.a("object");
+          response.body.should.have.property("id");
+          response.body.should.have.property("name");
+          response.body.should.have.property("calories");
+          done();
+        });
+    });
+
+    it("should not update the food specified without required parameters", done => {
+      chai
+        .request(server)
+        .put("/api/foods/2")
+        .send({
+          food: {
+            calories: 567
+          }
+        })
+        .end((err, response) => {
+          response.should.have.status(400);
+          response.body.error.should.eq(
+            `Expected format: { name: <string>, calories: <integer> }. You are missing a "name property."`
+          );
+          done();
+        });
+    });
+  });
+
+  describe("DELETE /api/foods/:food_id", () => {
+    it("should delete a food with the specified food_id", done => {
+      chai
+        .request(server)
+        .post("/api/foods")
+        .send({
+          food: {
+            name: "Delete me",
+            calories: 543
+          }
+        })
+        .end((err, response) => {
+          const foodToDeleteId = response.body.id;
+
+          chai
+            .request(server)
+            .delete(`/api/foods/${foodToDeleteId}`)
+            .end((err, response) => {
+              response.should.have.status(204);
+              chai
+                .request(server)
+                .get("/api/foods")
+                .end((err, response) => {
+                  response.body.length.should.equal(10);
+                  done();
+                });
+            });
+        });
+    });
+
+    it("should not delete a food that doesn't exist", done => {
+      chai
+        .request(server)
+        .delete(`/api/foods/4567890`)
+        .end((err, response) => {
+          response.should.have.status(404);
+          done();
+        });
+    });
   });
 });
