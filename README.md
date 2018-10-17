@@ -1,4 +1,7 @@
 # qs-api-express
+The API is deployed [here](https://qs-api-express.herokuapp.com/).
+
+This was build by [John Roemer](https://github.com/jtrtj) and [Tristan Bambauer](https://github.com/TristanB17)
 ## See a list of the endpoints and their returns below:
 
 ### Food endpoints
@@ -11,18 +14,73 @@
 [
     {
         "id": 1,
-        "name": "Teriyaki Chicken Donburi",
-        "calories": 523
+        "name": "Strawberries",
+        "calories": 120,
+        "created_at": "2018-10-17T00:39:55.102Z",
+        "updated_at": "2018-10-17T00:39:55.102Z"
     },
     {
         "id": 2,
-        "name": "Tuna Sashimi",
-        "calories": 195
+        "name": "Blackberries",
+        "calories": 110,
+        "created_at": "2018-10-17T00:39:55.102Z",
+        "updated_at": "2018-10-17T00:39:55.102Z"
     },
     {
         "id": 3,
-        "name": "Vegetable Soup",
-        "calories": 188
+        "name": "Blueberries",
+        "calories": 140,
+        "created_at": "2018-10-17T00:39:55.102Z",
+        "updated_at": "2018-10-17T00:39:55.102Z"
+    },
+    {
+        "id": 4,
+        "name": "Raspberries",
+        "calories": 200,
+        "created_at": "2018-10-17T00:39:55.102Z",
+        "updated_at": "2018-10-17T00:39:55.102Z"
+    },
+    {
+        "id": 5,
+        "name": "Boysenberries",
+        "calories": 150,
+        "created_at": "2018-10-17T00:39:55.102Z",
+        "updated_at": "2018-10-17T00:39:55.102Z"
+    },
+    {
+        "id": 6,
+        "name": "Gooseberries",
+        "calories": 220,
+        "created_at": "2018-10-17T00:39:55.102Z",
+        "updated_at": "2018-10-17T00:39:55.102Z"
+    },
+    {
+        "id": 7,
+        "name": "Poisonberries",
+        "calories": 420,
+        "created_at": "2018-10-17T00:39:55.102Z",
+        "updated_at": "2018-10-17T00:39:55.102Z"
+    },
+    {
+        "id": 8,
+        "name": "Açaí Berries",
+        "calories": 90,
+        "created_at": "2018-10-17T00:39:55.102Z",
+        "updated_at": "2018-10-17T00:39:55.102Z"
+    },
+    {
+        "id": 9,
+        "name": "Mulberries",
+        "calories": 100,
+        "created_at": "2018-10-17T00:39:55.102Z",
+        "updated_at": "2018-10-17T00:39:55.102Z"
+    },
+    {
+        "id": 10,
+        "name": "Astroberries",
+        "calories": 777,
+        "created_at": "2018-10-17T00:39:55.102Z",
+        "updated_at": "2018-10-17T00:39:55.102Z"
     }
 ]
 ```
@@ -31,9 +89,9 @@
 > Returns a single food
 ```json
 {
-    "id": 35,
-    "name": "Mushroom Risotto",
-    "calories": 740
+    "id": 3,
+    "name": "Blueberries",
+    "calories": 140
 }
 ```
 > __POST /api/foods__
@@ -46,7 +104,7 @@
 
 ```json
 {
-    "id": 61,
+    "id": 11,
     "name": "Flamin' Hot Cheetos",
     "calories": 450
 }
@@ -61,7 +119,7 @@
 
 ```json
 {
-    "id": 61,
+    "id": 11,
     "name": "XXXTra Flamin' Hot Cheetos",
     "calories": 450
 }
@@ -81,115 +139,79 @@
 ```json
 [
     {
-        "id": 1,
-        "name": "Breakfast",
-        "foods": [
-            {
-                "id": 12,
-                "name": "Pork Belly Buns",
-                "calories": 706
-            },
-            {
-                "id": 19,
-                "name": "Chicken Milanese",
-                "calories": 167
-            },
-            {
-                "id": 23,
-                "name": "Caesar Salad",
-                "calories": 797
-            }
-        ]
-    },
-    {
         "id": 2,
-        "name": "Lunch",
+        "name": "Afternoon Tea",
         "foods": [
+            {
+                "id": 2,
+                "name": "Blackberries",
+                "calories": 110
+            },
+            {
+                "id": 2,
+                "name": "Blackberries",
+                "calories": 110
+            },
             {
                 "id": 8,
-                "name": "Risotto with Seafood",
-                "calories": 769
+                "name": "Açaí Berries",
+                "calories": 90
             },
             {
-                "id": 23,
-                "name": "Caesar Salad",
-                "calories": 797
-            },
-            {
-                "id": 24,
-                "name": "Pasta Carbonara",
-                "calories": 237
-            },
-            {
-                "id": 36,
-                "name": "Linguine with Clams",
-                "calories": 732
-            },
-            {
-                "id": 59,
-                "name": "Katsu Curry",
-                "calories": 985
+                "id": 5,
+                "name": "Boysenberries",
+                "calories": 150
             }
         ]
     },
     {
         "id": 3,
-        "name": "Dinner",
+        "name": "Elevenses",
         "foods": [
             {
+                "id": 3,
+                "name": "Blueberries",
+                "calories": 140
+            },
+            {
+                "id": 6,
+                "name": "Gooseberries",
+                "calories": 220
+            },
+            {
+                "id": 7,
+                "name": "Poisonberries",
+                "calories": 420
+            },
+            {
                 "id": 9,
-                "name": "Tuna Sashimi",
-                "calories": 348
+                "name": "Mulberries",
+                "calories": 100
+            }
+        ]
+    },
+    {
+        "id": 1,
+        "name": "Second Breakfast",
+        "foods": [
+            {
+                "id": 1,
+                "name": "Strawberries",
+                "calories": 120
             },
             {
-                "id": 28,
-                "name": "Fettuccine Alfredo",
-                "calories": 813
+                "id": 4,
+                "name": "Raspberries",
+                "calories": 200
             },
             {
-                "id": 30,
-                "name": "Risotto with Seafood",
-                "calories": 697
-            },
-            {
-                "id": 40,
-                "name": "Salmon Nigiri",
-                "calories": 937
-            },
-            {
-                "id": 41,
-                "name": "Chicken Fajitas",
-                "calories": 138
-            },
-            {
-                "id": 59,
-                "name": "Katsu Curry",
-                "calories": 985
+                "id": 10,
+                "name": "Astroberries",
+                "calories": 777
             }
         ]
     }
 ]
-```
->
-> Returns a json object of a single meal with all of its eaten foods
-
-```json
-{
-    "id": 1,
-    "name": "Breakfast",
-    "foods": [
-        {
-            "id": 7,
-            "name": "Chicken Wings",
-            "calories": 126
-        },
-        {
-            "id": 3,
-            "name": "Vegetable Soup",
-            "calories": 895
-        }
-    ]
-}
 ```
 > __POST /api/meals/:meal_id/foods/:food_id__
 > 
@@ -197,7 +219,7 @@
 
 ```json
 {
-  "message": "Successfully added XXXtra Flamin' Hot Cheetos to Breakfast"
+  "message": "Successfully added XXXtra Flamin' Hot Cheetos to Elevenses"
 }
 ```
 > __DELETE /api/meals/:meal_id/foods/:food_id__
