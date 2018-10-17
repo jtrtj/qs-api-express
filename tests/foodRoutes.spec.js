@@ -9,7 +9,7 @@ const database = require("knex")(configuration);
 
 chai.use(chaiHttp);
 
-describe("API Routes", () => {
+describe("Food API Routes", () => {
   before(done => {
     database.migrate
       .latest()

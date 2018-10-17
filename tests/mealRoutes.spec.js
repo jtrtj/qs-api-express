@@ -9,7 +9,7 @@ const database = require("knex")(configuration);
 
 chai.use(chaiHttp);
 
-describe("API Routes", () => {
+describe("Meal API Routes", () => {
   before(done => {
     database.migrate
       .latest()
@@ -92,7 +92,7 @@ describe("API Routes", () => {
         .request(server)
         .delete("/api/meals/1/foods/5")
         .end((err, response) => {
-          response.should.have.status(204);
+          response.should.have.status(200);
           response.body.should.have.property("message");
           response.body.message.should.equal(
             "Successfully removed Boysenberries from Second Breakfast"
