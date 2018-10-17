@@ -46,21 +46,33 @@ router.get("/:meal_id/foods", (req, res) => {
 });
 
 router.post("/:meal_id/foods/:food_id", (req, res) => {
-  let food = req.body;
-  food["meal_id"] = req.params.meal_id;
-  food["food_id"] = req.params.food_id;
+  let mealFood = {};
+  mealFood["meal_id"] = req.params.meal_id;
+  mealFood["food_id"] = req.params.food_id;
   for (let requiredParameter of ["meal_id", "food_id"]) {
-    if (!food[requiredParameter]) {
+    if (!mealFood[requiredParameter]) {
       return res.status(422).send({
         error: `Expected format: { note: <String> }. You're missing a "${requiredParameter}" property.`
       });
     }
   }
+  let foodName;
+  let mealName;
+  database("foods")
+    .where("id", mealFood["food_id"])
+    .first()
+    .then(value => Promise.resolve((foodName = value.name)));
+  database("meals")
+    .where("id", mealFood["meal_id"])
+    .first()
+    .then(value => Promise.resolve((mealName = value.name)));
   database("meal_foods")
-    .insert(food)
+    .insert(mealFood)
     .returning("*")
     .then(mealFood => {
-      res.status(201).json(mealFood);
+      res.status(201).json({
+        message: `Successfully added ${foodName} to ${mealName}`
+      });
     })
     .catch(error => {
       res.status(500).json({ error });

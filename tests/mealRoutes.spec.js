@@ -59,7 +59,7 @@ describe("Meal API Routes", () => {
           response.should.be.json;
           response.body.message.should.be.a("string");
           response.body.message.should.equal(
-            "Successfully added Ham Sandwich to Breakfast"
+            "Successfully added Poisonberries to Second Breakfast"
           );
           done();
         });
