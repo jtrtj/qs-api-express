@@ -71,9 +71,8 @@ router.delete("/:meal_id/foods/:food_id", (req, res) => {
   mealId = req.params.meal_id;
   foodId = req.params.food_id;
   database("meal_foods")
-    .where(`meal_id: ${mealId}`)
-    .andWhere(`food_id: ${foodId}`)
-    .first()
+    .where(`meal_id`, mealId)
+    .where(`food_id`, foodId)
     .del()
     .then(() => {
       res.status(204).json();
