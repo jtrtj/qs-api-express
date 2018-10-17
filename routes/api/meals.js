@@ -52,24 +52,40 @@ router.post("/:meal_id/foods/:food_id", (req, res) => {
   for (let requiredParameter of ["meal_id", "food_id"]) {
     if (!mealFood[requiredParameter]) {
       return res.status(422).send({
-        error: `Expected format: { note: <String> }. You're missing a "${requiredParameter}" property.`
+        error: `Expected format: '/meals/:meal_id/foods/:food_id' . You're missing a "${requiredParameter}" property.`
       });
     }
   }
   let foodName;
   let mealName;
   database("foods")
-    .where("id", mealFood["food_id"])
-    .first()
-    .then(value => Promise.resolve((foodName = value.name)));
+    .where("id", req.params.food_id)
+    .then(value => {
+      if (!value.length) {
+        return res.status(404).json({ error });
+      }
+      foodName = value[0].name;
+    })
+    .catch(error => {
+      res.status(500).json({ error });
+    });
+
   database("meals")
     .where("id", mealFood["meal_id"])
-    .first()
-    .then(value => Promise.resolve((mealName = value.name)));
+    .then(value => {
+      if (!value.length) {
+        return res.status(404).json({ error });
+      }
+      mealName = value[0].name;
+    })
+    .catch(error => {
+      res.status(500).json({ error });
+    });
+
   database("meal_foods")
     .insert(mealFood)
     .returning("*")
-    .then(mealFood => {
+    .then(() => {
       res.status(201).json({
         message: `Successfully added ${foodName} to ${mealName}`
       });
@@ -87,11 +103,11 @@ router.delete("/:meal_id/foods/:food_id", (req, res) => {
   database("foods")
     .where("id", foodId)
     .first()
-    .then(value => Promise.resolve((foodName = value.name)));
+    .then(value => (foodName = value.name));
   database("meals")
     .where("id", mealId)
     .first()
-    .then(value => Promise.resolve((mealName = value.name)));
+    .then(value => (mealName = value.name));
   database("meal_foods")
     .where(`meal_id`, mealId)
     .where(`food_id`, foodId)
