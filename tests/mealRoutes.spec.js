@@ -48,4 +48,57 @@ describe("API Routes", () => {
         });
     });
   });
+
+  describe("POST /api/meals/:meal_id/foods/:food_id", () => {
+    it("should add the specified food to the specified meal", done => {
+      chai
+        .request(server)
+        .post("/api/meals/1/foods/7")
+        .end((err, response) => {
+          response.should.have.status(201);
+          response.should.be.json;
+          response.body.message.should.be.a("string");
+          response.body.message.should.equal(
+            "Successfully added Ham Sandwich to Breakfast"
+          );
+          done();
+        });
+    });
+
+    it("should return 404 if meal doesn't exist", done => {
+      chai
+        .request(server)
+        .post("/api/meals/7/foods/6")
+        .end((err, response) => {
+          response.should.have.status(404);
+          done();
+        });
+    });
+
+    it("should return 404 if food doesn't exist", done => {
+      chai
+        .request(server)
+        .post("/api/meals/1/foods/12")
+        .end((err, response) => {
+          response.should.have.status(404);
+          done();
+        });
+    });
+  });
+
+  describe("DELETE /api/meals/:meal_id/foods/:food_id", () => {
+    it("should delete specified food from specified meal", done => {
+      chai
+        .request(server)
+        .delete("/api/meals/1/foods/5")
+        .end((err, response) => {
+          response.should.have.status(204);
+          response.body.should.have.property("message");
+          response.body.message.should.equal(
+            "Successfully removed Boysenberries from Second Breakfast"
+          );
+          done();
+        });
+    });
+  });
 });
