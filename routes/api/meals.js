@@ -111,7 +111,12 @@ router.delete("/:meal_id/foods/:food_id", (req, res) => {
   database("meal_foods")
     .where(`meal_id`, mealId)
     .where(`food_id`, foodId)
-    .del()
+    .then(response => {
+      let mealFoodId = response[0].id;
+      return database("meal_foods")
+        .where("id", mealFoodId)
+        .del();
+    })
     .then(mealFood => {
       res.status(200).json({
         message: `Successfully removed ${foodName} from ${mealName}`
