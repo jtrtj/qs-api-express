@@ -1,5 +1,5 @@
 # qs-api-express
-The API is deployed [here](https://qs-api-express.herokuapp.com/).
+The API is deployed here: [https://qs-api-express.herokuapp.com/](https://qs-api-express.herokuapp.com/).
 
 This was build by [John Roemer](https://github.com/jtrtj) and [Tristan Bambauer](https://github.com/TristanB17)
 ### This API was built with Node and Express
