@@ -2,8 +2,8 @@
 The API is deployed [here](https://qs-api-express.herokuapp.com/).
 
 This was build by [John Roemer](https://github.com/jtrtj) and [Tristan Bambauer](https://github.com/TristanB17)
-### This is the first Node/Express app we have built
-We used, Knex ORM and Mocha/Chai for testing.
+### This API was built with Node and Express
+We used PostgreSQL, Knex ORM and Mocha/Chai for testing.
 ## See a list of the endpoints and their returns below:
 
 ### Food endpoints
