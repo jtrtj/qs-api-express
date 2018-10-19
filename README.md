@@ -1,9 +1,19 @@
 # qs-api-express
 The API is deployed here: [https://qs-api-express.herokuapp.com/](https://qs-api-express.herokuapp.com/).
 
-This was build by [John Roemer](https://github.com/jtrtj) and [Tristan Bambauer](https://github.com/TristanB17)
+This was built by [John Roemer](https://github.com/jtrtj) and [Tristan Bambauer](https://github.com/TristanB17)
 ### This API was built with Node and Express
 We used PostgreSQL, Knex ORM and Mocha/Chai for testing.
+
+## If you would like to deploy it locally:
+
+1. Clone this repo
+1. `$ cd qs-api-express`
+1. `$ npm install`
+1. `$ npm run server`
+1. You can now intereact with the api @ **http://localhost:3000/**
+1. Run the test suite with `$ mocha tests/ --exit`
+
 ## See a list of the endpoints and their returns below:
 
 ### Food endpoints
